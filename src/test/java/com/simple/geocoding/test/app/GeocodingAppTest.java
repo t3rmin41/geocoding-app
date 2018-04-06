@@ -4,14 +4,14 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-public class AppTest extends TestCase {
-
-  public AppTest(String testName) {
+public class GeocodingAppTest extends TestCase {
+  
+  public GeocodingAppTest(String testName) {
     super(testName);
   }
 
   public static Test suite() {
-    return new TestSuite(AppTest.class);
+    return new TestSuite(GeocodingAppTest.class);
   }
 
   public void testApp() {
