@@ -4,7 +4,7 @@ spring:
     application:
         name: com.simple.geocoding.app
     profiles:
-        active: test
+        active: prod
 
 ---
 
