@@ -40,6 +40,7 @@
         </sift>
     </appender>
 
+
     <!--DEVELOPMENT logger-->
     <springProfile name="dev">
         <root level="${LocalDevLogLevel}" additivity="false">
