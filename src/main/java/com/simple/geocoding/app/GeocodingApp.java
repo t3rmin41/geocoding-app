@@ -16,10 +16,12 @@ import com.simple.geocoding.config.ClientConfig;
 @Import({ClientConfig.class})
 public class GeocodingApp implements CommandLineRunner {
   
+  private static final Logger logger = LoggerFactory.getLogger(GeocodingApp.class);
+  
   @Autowired
   private RestTemplate restTemplate;
   
-  private static final Logger logger = LoggerFactory.getLogger(GeocodingApp.class);
+  private String outputType = "xml";
   
   public static void main(String[] args) throws Exception {
     SpringApplication app = new SpringApplication(GeocodingApp.class);
@@ -30,7 +32,7 @@ public class GeocodingApp implements CommandLineRunner {
   @Override
   public void run(String... args) throws Exception {
     logger.warn("Hello World!");
-    ResponseEntity<String> response = restTemplate.getForEntity(ClientConfig.URL_BASE+"?address=Sarande+Albania&key="+ClientConfig.GOOGLE_API_KEY, String.class);
+    ResponseEntity<String> response = restTemplate.getForEntity(ClientConfig.URL_BASE+outputType+"?address=Sarande+Albania&key="+ClientConfig.GOOGLE_API_KEY, String.class);
     logger.warn("{}", response);
   }
 }
