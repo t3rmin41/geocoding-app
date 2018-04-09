@@ -10,16 +10,22 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+import com.simple.geocoding.config.ActiveMqConfig;
+import com.simple.geocoding.config.AppConfig;
 import com.simple.geocoding.config.ClientConfig;
+import com.simple.geocoding.jms.CityReader;
 
 @SpringBootApplication
-@Import({ClientConfig.class})
+@Import({AppConfig.class, ClientConfig.class, ActiveMqConfig.class})
 public class GeocodingApp implements CommandLineRunner {
   
   private static final Logger logger = LoggerFactory.getLogger(GeocodingApp.class);
   
   @Autowired
   private RestTemplate restTemplate;
+  
+  @Autowired
+  private CityReader cityReader;
   
   private String outputType = "xml";
   
@@ -31,8 +37,9 @@ public class GeocodingApp implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-    logger.warn("Hello World!");
-    ResponseEntity<String> response = restTemplate.getForEntity(ClientConfig.URL_BASE+outputType+"?address=Sarande+Albania&key="+ClientConfig.GOOGLE_API_KEY, String.class);
-    logger.warn("{}", response);
+    logger.warn("Started geocoding app");
+    Thread readerThread = new Thread(cityReader);
+    readerThread.setName("CityReader");
+    readerThread.start();
   }
 }
