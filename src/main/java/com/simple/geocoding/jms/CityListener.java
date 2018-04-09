@@ -9,7 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-import com.simple.geocoding.config.ClientConfig;
+import org.w3c.dom.Element;
+import org.w3c.dom.Document;
+
+import com.simple.geocoding.config.WebClientConfig;
+import com.simple.geocoding.domain.GeocodeResponse;
 
 public class CityListener implements MessageListener {
 
@@ -27,8 +31,9 @@ public class CityListener implements MessageListener {
       if (message instanceof ObjectMessage) {
         ObjectMessage objectMessage = (ObjectMessage) message;
         QueueCityMessage requestMessage = (QueueCityMessage) objectMessage.getObject();
-        ResponseEntity<String> response = restTemplate.getForEntity(ClientConfig.URL_BASE+outputType+"?address="+requestMessage.getCity()+"+"+requestMessage.getCountry()+"&key="+ClientConfig.GOOGLE_API_KEY, String.class);
+        ResponseEntity<GeocodeResponse> response = restTemplate.getForEntity(WebClientConfig.URL_BASE+outputType+"?address="+requestMessage.getCity()+"+"+requestMessage.getCountry()+"&key="+WebClientConfig.GOOGLE_API_KEY, GeocodeResponse.class);
         logger.warn("{}", response);
+        //logger.warn("{}", response.getBody());
       }
     } catch (JMSException e) {
       logger.error(e.getMessage());

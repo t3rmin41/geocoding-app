@@ -8,15 +8,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import com.simple.geocoding.config.ActiveMqConfig;
 import com.simple.geocoding.config.AppConfig;
-import com.simple.geocoding.config.ClientConfig;
+import com.simple.geocoding.config.WebClientConfig;
 import com.simple.geocoding.jms.CityReader;
 
 @SpringBootApplication
-@Import({AppConfig.class, ClientConfig.class, ActiveMqConfig.class})
+@Import({AppConfig.class, WebClientConfig.class, ActiveMqConfig.class})
 public class GeocodingApp implements CommandLineRunner {
   
   private static final Logger logger = LoggerFactory.getLogger(GeocodingApp.class);
