@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter;
 
 @Configuration
 public class WebClientConfig {
@@ -19,11 +20,13 @@ public class WebClientConfig {
   @Bean
   public RestTemplate restTemplate() {
     RestTemplate restTemplate = new RestTemplate();
-    restTemplate.getMessageConverters().add(0, gsonHttpMessageConverter());
+    restTemplate.getMessageConverters().add(new Jaxb2RootElementHttpMessageConverter());
+    //restTemplate.getMessageConverters().add(0, gsonHttpMessageConverter());
     //restTemplate.getMessageConverters().add(1, new StringHttpMessageConverter(Charset.forName("UTF-8")));
     return restTemplate;
   }
   
+  /*
   @Bean
   public GsonHttpMessageConverter gsonHttpMessageConverter() {
     GsonHttpMessageConverter messageConverter = new GsonHttpMessageConverter();
@@ -37,5 +40,6 @@ public class WebClientConfig {
     messageConverter.setSupportedMediaTypes(types);
     return  messageConverter;
   }
+  /**/
   
 }

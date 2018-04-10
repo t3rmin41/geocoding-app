@@ -6,33 +6,41 @@ public class Coords {
 
   private String type;
   
-  @XmlElement(name="lat")
+  //@XmlElement(name="lat")
   private Double latitude;
   
-  @XmlElement(name="lng")
+  //@XmlElement(name="lng")
   private Double longitude;
 
   public Coords() {}
   
-  /*
+  
   public String getType() {
     return type;
   }
-  public void setType(String type) {
+  public Coords setType(String type) {
     this.type = type;
+    return this;
   }
   public Double getLatitude() {
     return latitude;
   }
-  public void setLatitude(Double latitude) {
+  public Coords setLatitude(Double latitude) {
     this.latitude = latitude;
+    return this;
   }
   public Double getLongitude() {
     return longitude;
   }
-  public void setLongitude(Double longitude) {
+  public Coords setLongitude(Double longitude) {
     this.longitude = longitude;
+    return this;
   }
   /**/
+  
+  @Override
+  public String toString() {
+    return "[Coords : type="+type+"; latitude="+latitude+"; longitude="+longitude+"]";
+  }
   
 }

@@ -8,8 +8,14 @@ public class AddressType {
     return type;
   }
 
-  public void setType(String type) {
+  public AddressType setType(String type) {
     this.type = type;
+    return this;
   }
 
+  @Override
+  public String toString() {
+    return "[AddressType : type="+type+"]";
+  }
+  
 }
