@@ -1,0 +1,55 @@
+<xs:schema xmlnxs:s="http://www.w3.org/2001/XMLSchema"
+           xmlnxs:tns="http://simple.geocoding.com/domain"
+           targetNamespace="http://simple.geocoding.com/domain"
+           elementFormDefault="qualified">
+    <xs:element name="GeocodeRequest">
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:any />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GeocodeResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="1" name="status" type="xs:string" />
+                <xs:element maxOccurs="unbounded" name="result" type="tns:address"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="address">
+        <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="place_id" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="formatted_address" type="xs:string" />
+            <xs:element maxOccurs="unbounded" name="type" type="xs:string" />
+            <xs:element maxOccurs="unbounded" name="address_component" type="tns:address_component" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="address_component">
+        <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="long_name" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="short_name" type="xs:string" />
+            <xs:element maxOccurs="unbounded" name="type" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="geometry">
+        <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="location_type" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="location" type="tns:coords" />
+            <xs:element minOccurs="0" maxOccurs="1" name="viewport" type="tns:bounds" />
+            <xs:element minOccurs="0" maxOccurs="1" name="bounds" type="tns:bounds" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="bounds">
+        <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="southwest" type="tns:coords" />
+            <xs:element minOccurs="0" maxOccurs="1" name="northeast" type="tns:coords" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="coords">
+        <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="lat" type="xs:decimal" />
+            <xs:element minOccurs="0" maxOccurs="1" name="lng" type="xs:decimal" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
