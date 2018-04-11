@@ -49,8 +49,7 @@ public class Geometry {
   
   @Override
   public String toString() {
-    String info = "";
-    info = "[Geometry : locationType="+locationType+"; location="+location+"; bounds={";
+    String info = "[Geometry : locationType="+locationType+"; location="+location+"; bounds={";
             for (Coords coords : bounds) {
               info += coords;
             }

@@ -61,8 +61,7 @@ public class Address {
   
   @Override
   public String toString() {
-    String info = "";
-    info = "[Address : placeId="+placeId+"; formattedAddress="+formattedAddress+"; components={";
+    String info = "[Address : placeId="+placeId+"; formattedAddress="+formattedAddress+"; components={";
     for (AddressComponent component : components) {
       info += component;
     }
