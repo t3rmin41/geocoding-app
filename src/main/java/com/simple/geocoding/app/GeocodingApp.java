@@ -8,18 +8,29 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-import com.simple.geocoding.config.ClientConfig;
+import com.simple.geocoding.config.AppConfig;
+import com.simple.geocoding.config.H2Config;
+import com.simple.geocoding.config.WebClientConfig;
+import com.simple.geocoding.domain.Address;
+import com.simple.geocoding.util.XMLResponseParser;
 
 @SpringBootApplication
-@Import({ClientConfig.class})
+@Import({AppConfig.class, WebClientConfig.class, H2Config.class}) //, ActiveMqConfig.class})
 public class GeocodingApp implements CommandLineRunner {
+  
+  private static final Logger logger = LoggerFactory.getLogger(GeocodingApp.class);
   
   @Autowired
   private RestTemplate restTemplate;
   
-  private static final Logger logger = LoggerFactory.getLogger(GeocodingApp.class);
+  @Autowired
+  private XMLResponseParser xmlParser;
+  
+  //@Autowired
+  //private CityReader cityReader;
+  
+  private String outputType = "xml";
   
   public static void main(String[] args) throws Exception {
     SpringApplication app = new SpringApplication(GeocodingApp.class);
@@ -29,8 +40,15 @@ public class GeocodingApp implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-    logger.warn("Hello World!");
-    ResponseEntity<String> response = restTemplate.getForEntity(ClientConfig.URL_BASE+"?address=Sarande+Albania&key="+ClientConfig.GOOGLE_API_KEY, String.class);
-    logger.warn("{}", response);
+    logger.warn("Started geocoding app");
+    //Thread readerThread = new Thread(cityReader);
+    //readerThread.setName("CityReader");
+    //readerThread.start();
+    String url = WebClientConfig.URL_BASE+outputType+"?address=Sarande+Albania&key="+WebClientConfig.GOOGLE_API_KEY;
+    //String soapUrl = "http://lb.lt/webservices/ExchangeRates/ExchangeRates.asmx?wsdl";
+    String response = restTemplate.getForObject(url, String.class);
+    Address address = xmlParser.parseAddressFromXMLResponse(response);
+    logger.warn("{}", address);
+    //logger.warn("{}", response);
   }
 }
