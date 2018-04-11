@@ -1,7 +1,6 @@
 package com.simple.geocoding.jms;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.annotation.PostConstruct;
@@ -34,7 +33,7 @@ public class CityReader implements Runnable {
   
   @Override
   public void run() {
-    setDatasourceFile("./src/main/resources/500_europe_cities_test.csv");
+    setDatasourceFile("./src/main/resources/500_europe_cities.csv");
     readFromDatasource();
   }
 
