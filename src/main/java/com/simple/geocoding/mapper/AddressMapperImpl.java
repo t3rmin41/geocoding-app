@@ -22,7 +22,7 @@ public class AddressMapperImpl implements AddressMapper {
   
   private GeometryDao geometryDao = new GeometryDao();
   
-  private AddressComponentDao componentDao = new AddressComponentDao();
+  private List<AddressComponentDao> componentDaoList = new LinkedList<AddressComponentDao>();
   
   @Override
   public void saveAddress(Address address) {
@@ -44,21 +44,27 @@ public class AddressMapperImpl implements AddressMapper {
     jpa.getTypes().addAll(types);
     List<AddressComponentDao> components = new LinkedList<AddressComponentDao>();
     address.getComponents().stream().forEach(c -> {
-      //AddressComponentDao componentDao = new AddressComponentDao();
+      AddressComponentDao componentDao = new AddressComponentDao();
       componentDao.setShortname(c.getShortName());
       componentDao.setLongname(c.getLongName());
+      componentDao.setAddress(jpa);
+      componentDao = repo.saveAddressComponent(componentDao);
       List<AddressTypeDao> componentTypes = new LinkedList<AddressTypeDao>();
       c.getTypes().stream().forEach(t -> {
         AddressTypeDao componentTypeDao = new AddressTypeDao();
         componentTypeDao.setType(t.getType());
         componentTypeDao.setParentType("ADDRESS_COMPONENT");
-        componentTypeDao.setParent(componentDao);
-        componentTypeDao = repo.saveAddressType(componentTypeDao);
+        //componentTypeDao.setParent(componentDao);
+        //componentTypeDao = repo.saveAddressType(componentTypeDao);
         componentTypes.add(componentTypeDao);
       });
-      componentDao.setAddress(jpa);
+      //componentDao.setAddress(jpa);
       componentDao.getTypes().addAll(componentTypes);
-      componentDao = repo.saveAddressComponent(componentDao);
+      //componentDao = repo.saveAddressComponent(componentDao);
+      componentDao.getTypes().stream().forEach(t -> {
+        t.setParent(componentDao);
+      });
+      
       components.add(componentDao);
     });
     jpa.getComponents().addAll(components);

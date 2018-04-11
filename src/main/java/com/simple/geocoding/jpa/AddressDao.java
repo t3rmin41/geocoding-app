@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "ADDRESS")
-public class AddressDao extends AddressParentDao {
+public class AddressDao {
 
   @Id
   @GeneratedValue(strategy=GenerationType.AUTO)
@@ -29,6 +29,8 @@ public class AddressDao extends AddressParentDao {
   private GeometryDao geometry;
   @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="address")
   private List<AddressComponentDao> components = new LinkedList<AddressComponentDao>();
+  @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="address")
+  List<AddressTypeDao> types = new LinkedList<AddressTypeDao>();
 
   public Long getId() {
     return id;
@@ -59,6 +61,12 @@ public class AddressDao extends AddressParentDao {
   }
   public void setComponents(List<AddressComponentDao> components) {
     this.components = components;
+  }
+  public List<AddressTypeDao> getTypes() {
+    return types;
+  }
+  public void setTypes(List<AddressTypeDao> types) {
+    this.types = types;
   }
 
 }

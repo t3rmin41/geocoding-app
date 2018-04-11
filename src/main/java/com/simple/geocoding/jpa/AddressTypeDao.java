@@ -24,8 +24,8 @@ public class AddressTypeDao {
   private String parentType;
 
   @ManyToOne(fetch=FetchType.LAZY)
-  @JoinColumn(name="PARENT_ID", nullable=false)
-  private AddressParentDao parent;
+  @JoinColumn(name="ADDRESS_ID", nullable=false)
+  private AddressDao address;
 
   public Long getId() {
     return id;
@@ -51,12 +51,12 @@ public class AddressTypeDao {
     this.parentType = parentType;
   }
 
-  public AddressParentDao getParent() {
-    return parent;
+  public AddressDao getAddress() {
+    return address;
   }
 
-  public void setParent(AddressParentDao parent) {
-    this.parent = parent;
+  public void setAddress(AddressDao address) {
+    this.address = address;
   }
-  
+
 }
