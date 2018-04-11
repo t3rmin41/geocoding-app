@@ -13,7 +13,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Document;
 
 import com.simple.geocoding.config.WebClientConfig;
+import com.simple.geocoding.domain.Address;
 import com.simple.geocoding.domain.GeocodeResponse;
+import com.simple.geocoding.service.AddressService;
+import com.simple.geocoding.util.XMLResponseParser;
 
 public class CityListener implements MessageListener {
 
@@ -21,6 +24,12 @@ public class CityListener implements MessageListener {
   
   @Autowired
   private RestTemplate restTemplate;
+  
+  @Autowired
+  private AddressService addressService;
+  
+  @Autowired
+  private XMLResponseParser xmlParser;
   
   private String outputType = "xml";
   
@@ -31,9 +40,9 @@ public class CityListener implements MessageListener {
       if (message instanceof ObjectMessage) {
         ObjectMessage objectMessage = (ObjectMessage) message;
         QueueCityMessage requestMessage = (QueueCityMessage) objectMessage.getObject();
-        ResponseEntity<GeocodeResponse> response = restTemplate.getForEntity(WebClientConfig.URL_BASE+outputType+"?address="+requestMessage.getCity()+"+"+requestMessage.getCountry()+"&key="+WebClientConfig.GOOGLE_API_KEY, GeocodeResponse.class);
-        logger.warn("{}", response);
-        //logger.warn("{}", response.getBody());
+        String response = restTemplate.getForObject(WebClientConfig.URL_BASE+outputType+"?address="+requestMessage.getCity()+"+"+requestMessage.getCountry()+"&key="+WebClientConfig.GOOGLE_API_KEY, String.class);
+        Address address = xmlParser.parseAddressFromXMLResponse(response);
+        logger.warn("{}", address);
       }
     } catch (JMSException e) {
       logger.error(e.getMessage());
