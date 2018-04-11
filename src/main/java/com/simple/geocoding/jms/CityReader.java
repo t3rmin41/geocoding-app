@@ -33,7 +33,7 @@ public class CityReader implements Runnable {
   
   @Override
   public void run() {
-    setDatasourceFile("./src/main/resources/500_europe_cities_test.csv");
+    setDatasourceFile("./src/main/resources/500_europe_cities.csv");
     readFromDatasource();
   }
 
