@@ -1,10 +1,5 @@
 package com.simple.geocoding.app;
 
-import java.io.IOException;
-import java.io.StringReader;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +10,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.client.RestTemplate;
 import com.simple.geocoding.config.AppConfig;
+import com.simple.geocoding.config.H2Config;
 import com.simple.geocoding.config.WebClientConfig;
 import com.simple.geocoding.domain.Address;
 import com.simple.geocoding.util.XMLResponseParser;
 
 @SpringBootApplication
-@Import({AppConfig.class, WebClientConfig.class}) //, ActiveMqConfig.class})
+@Import({AppConfig.class, WebClientConfig.class, H2Config.class}) //, ActiveMqConfig.class})
 public class GeocodingApp implements CommandLineRunner {
   
   private static final Logger logger = LoggerFactory.getLogger(GeocodingApp.class);

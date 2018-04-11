@@ -2,7 +2,9 @@ package com.simple.geocoding.config;
 
 import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
+import org.h2.server.web.WebServlet;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
@@ -16,10 +18,17 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-public class JpaConfig {
+public class H2Config {
 
   @Value("${spring.profiles.active}")
   private String activeProfile;
+  
+  @Bean
+  public ServletRegistrationBean h2servletRegistration(){
+      ServletRegistrationBean registrationBean = new ServletRegistrationBean(new WebServlet());
+      registrationBean.addUrlMappings("/h2-console/*");
+      return registrationBean;
+  }
   
   @Bean(name = "dataSource")
   public DriverManagerDataSource dataSource() {
@@ -73,6 +82,5 @@ public class JpaConfig {
     }
     return properties;
  }
-  
   
 }
