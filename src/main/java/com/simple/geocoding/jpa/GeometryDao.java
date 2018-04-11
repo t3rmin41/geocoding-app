@@ -33,7 +33,13 @@ public class GeometryDao {
   @OneToOne(fetch=FetchType.LAZY)
   @JoinColumn(name="ADDRESS_ID", nullable=false)
   private AddressDao address;
-  
+
+  public Long getId() {
+    return id;
+  }
+  public void setId(Long id) {
+    this.id = id;
+  }
   public String getLocationType() {
     return locationType;
   }
@@ -58,5 +64,12 @@ public class GeometryDao {
   public void setViewport(List<CoordsDao> viewport) {
     this.viewport = viewport;
   }
+  public AddressDao getAddress() {
+    return address;
+  }
+  public void setAddress(AddressDao address) {
+    this.address = address;
+  }
   
+
 }

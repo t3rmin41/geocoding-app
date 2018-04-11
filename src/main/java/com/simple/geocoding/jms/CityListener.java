@@ -42,6 +42,7 @@ public class CityListener implements MessageListener {
         String response = restTemplate.getForObject(WebClientConfig.URL_BASE+outputType+"?address="+requestMessage.getCity()+"+"+requestMessage.getCountry()+"&key="+WebClientConfig.GOOGLE_API_KEY, String.class);
         Address address = xmlParser.parseAddressFromXMLResponse(response);
         logger.warn("{}", address);
+        addressService.saveAddress(address);
       }
     } catch (JMSException e) {
       logger.error(e.getMessage());

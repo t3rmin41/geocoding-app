@@ -30,6 +30,12 @@ public class AddressDao extends AddressParentDao {
   @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="address")
   private List<AddressComponentDao> components = new LinkedList<AddressComponentDao>();
 
+  public Long getId() {
+    return id;
+  }
+  public void setId(Long id) {
+    this.id = id;
+  }
   public String getPlaceId() {
     return placeId;
   }
