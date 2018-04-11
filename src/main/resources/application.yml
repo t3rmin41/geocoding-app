@@ -10,10 +10,20 @@ spring:
 
 spring.profiles: dev
 
+server:
+    port: 8802
+
 ---
 
 spring.profiles: test
 
+server:
+    port: 8801
+
 ---
 
 spring.profiles: prod
+
+server:
+    port: 8800
+
