@@ -9,14 +9,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.client.RestTemplate;
+import com.simple.geocoding.config.ActiveMqConfig;
 import com.simple.geocoding.config.AppConfig;
 import com.simple.geocoding.config.H2Config;
 import com.simple.geocoding.config.WebClientConfig;
 import com.simple.geocoding.domain.Address;
+import com.simple.geocoding.jms.CityReader;
 import com.simple.geocoding.util.XMLResponseParser;
 
 @SpringBootApplication
-@Import({AppConfig.class, WebClientConfig.class, H2Config.class}) //, ActiveMqConfig.class})
+@Import({AppConfig.class, WebClientConfig.class, H2Config.class, ActiveMqConfig.class})
 public class GeocodingApp implements CommandLineRunner {
   
   private static final Logger logger = LoggerFactory.getLogger(GeocodingApp.class);
@@ -27,8 +29,8 @@ public class GeocodingApp implements CommandLineRunner {
   @Autowired
   private XMLResponseParser xmlParser;
   
-  //@Autowired
-  //private CityReader cityReader;
+  @Autowired
+  private CityReader cityReader;
   
   private String outputType = "xml";
   
@@ -41,14 +43,14 @@ public class GeocodingApp implements CommandLineRunner {
   @Override
   public void run(String... args) throws Exception {
     logger.warn("Started geocoding app");
-    //Thread readerThread = new Thread(cityReader);
-    //readerThread.setName("CityReader");
-    //readerThread.start();
-    String url = WebClientConfig.URL_BASE+outputType+"?address=Sarande+Albania&key="+WebClientConfig.GOOGLE_API_KEY;
+    Thread readerThread = new Thread(cityReader);
+    readerThread.setName("CityReader");
+    readerThread.start();
+    //String url = WebClientConfig.URL_BASE+outputType+"?address=Sarande+Albania&key="+WebClientConfig.GOOGLE_API_KEY;
     //String soapUrl = "http://lb.lt/webservices/ExchangeRates/ExchangeRates.asmx?wsdl";
-    String response = restTemplate.getForObject(url, String.class);
-    Address address = xmlParser.parseAddressFromXMLResponse(response);
-    logger.warn("{}", address);
+    //String response = restTemplate.getForObject(url, String.class);
+    //Address address = xmlParser.parseAddressFromXMLResponse(response);
+    //logger.warn("{}", address);
     //logger.warn("{}", response);
   }
 }
