@@ -14,7 +14,6 @@ import org.w3c.dom.Document;
 
 import com.simple.geocoding.config.WebClientConfig;
 import com.simple.geocoding.domain.Address;
-import com.simple.geocoding.domain.GeocodeResponse;
 import com.simple.geocoding.service.AddressService;
 import com.simple.geocoding.util.XMLResponseParser;
 
